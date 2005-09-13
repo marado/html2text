@@ -1,0 +1,64 @@
+#!/usr/bin/make -f
+
+# This script uses debhelper by Joey Hess
+export DH_VERBOSE=1
+export DH_COMPAT=4
+
+DEB=debian/html2text
+
+build:	build-stamp
+build-stamp:
+	dh_testdir
+	# build package here
+	./configure --prefix=$(DEB)/usr
+#	$(MAKE) depend
+	$(MAKE) LOCAL_LDFLAGS=-g
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	-rm -rf Makefile html2text *.o configure-tmp Dependencies
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+binary-indep:	build install
+binary-arch:	build install
+#	dh_testversion 2
+	dh_testdir
+	dh_testroot
+	dh_installdebconf
+	dh_installdirs usr/bin
+	# move files into $(DEB)
+	cp html2text $(DEB)/usr/bin
+	# dh_link src dest src dest...
+	dh_installdocs README TODO
+	dh_installexamples pretty.style
+	dh_installmime
+	dh_installmenu
+# boo hoo - it doesn't recognise them!	
+#	dh_installmanpages
+	dh_installdirs usr/share/man/man1 usr/share/man/man5
+	gzip -c9 debian/html2text.1 > $(DEB)/usr/share/man/man1/html2text.1.gz
+	# darn, patch those typos (bug #309887 here)
+	gunzip -c html2textrc.5.gz | sed \
+	  "s/specifiy/specify/; s/elemet/element/; s/who's/whose/" \
+	  | gzip -c9 > $(DEB)/usr/share/man/man5/html2textrc.5.gz
+	dh_installchangelogs CHANGES
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary:	binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary

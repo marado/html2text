@@ -1,0 +1,13 @@
+Source: html2text
+Section: web
+Priority: optional
+Maintainer: Adrian Bridgett <bridgett@debian.org>
+Build-Depends: debhelper (>= 4)
+Standards-Version: 3.6.2.1
+
+Package: html2text
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: An advanced HTML to text converter
+ html2text was written because the author wasn't happy with the 
+ output of "lynx -dump" and so he wrote something better.
