@@ -1,7 +1,41 @@
+html2text (1.3.2a-4) unstable; urgency=low
+
+  * New maintainer. (Closes: #486760)
+  * Package now use quilt.
+  * debian/patches:
+    - Added 50-add-quotes-and-dash-substitutes.patch: substitutes for &#8220
+      (opening quotes), &#8221 (closing quotes) and &#8212 (long dash).
+      (Closes: #255511)
+    - Added 200-close-files-inside-main-loop.patch: closes every input file
+      after processing, not at the end of program. Thanks to Rafal Krypa.
+      (Closes: #381184)
+    - Converted previous patch in diff.gz to
+      300-replace-zeroes-with-null.patch
+  * debian/copyright:
+    - Reformatted.
+    - Added GPLv2 clause.
+    - Renewed download page.
+  * debian/control:
+    - Bumped 'Standards-Version' field to 3.8.0.
+    - Bumped debhelper dependency to (>= 6).
+    - Added 'Homepage' field.
+    - Renewed short and long descriptions. (Closes: #342727)
+  * debian/rules:
+    - Removed 'DH_COMPAT' variable, moved to debian/compat.
+    - Some cleanup.
+    - Added support for 'noopt' in DEB_BUILD_OPTIONS.
+    - Added support for 'parallel=n' in DEB_BUILD_OPTIONS.
+    - Added installing file 'ASCII.substitutes' as part of documentation.
+      (Closes: #367555, #388583)
+  * debian/watch:
+    - Added.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Sun, 13 Jul 2008 11:35:15 +0300
+
 html2text (1.3.2a-3) unstable; urgency=low
 
   * recompile against g++-4 (closes: #327126)
-  * fix manpage typo's (closes: #309997)
+  * fix man page typo's (closes: #309997)
 
  -- Adrian Bridgett <bridgett@debian.org>  Tue, 13 Sep 2005 20:48:34 +0100
 
@@ -47,7 +81,7 @@ html2text (1.3.0.1-1) unstable; urgency=low
   * newlines no longer end an element (closes: #96819)
   * handles documents produced by MS word better (closes: #116907)
   * partially does #136382 but not completely as it does not
-    parse HTMLv4.  
+    parse HTML4.  
 
  -- Adrian Bridgett <bridgett@debian.org>  Sun, 14 Apr 2002 15:50:18 +0100
 

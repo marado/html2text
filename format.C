@@ -560,7 +560,7 @@ Heading::format(Area::size_type w, int halign) const
     "LEFT",   Area::LEFT,
     "CENTER", Area::CENTER,
     "RIGHT",  Area::RIGHT,
-    NULL
+    0
   );
 
   static char cell_attributes[7];
@@ -682,7 +682,7 @@ Paragraph::format(Area::size_type w, int halign) const
     "LEFT",   Area::LEFT,
     "CENTER", Area::CENTER,
     "RIGHT",  Area::RIGHT,
-    NULL
+    0
   );
 
   static BlockFormat bf("P");
@@ -752,7 +752,7 @@ Applet::format(Area::size_type w, int /*halign*/ ) const
       "LEFT",   Area::LEFT,
       "MIDDLE", Area::CENTER,
       "RIGHT",  Area::RIGHT,
-      NULL
+      0
     );
     Area *a = ::format(content.get(), w, halign);
     if (a) return a;
@@ -802,7 +802,7 @@ Division::format(Area::size_type w, int halign) const
     "LEFT",   Area::LEFT,
     "CENTER", Area::CENTER,
     "RIGHT",  Area::RIGHT,
-    NULL
+    0
   ));
 }
 
@@ -1632,7 +1632,7 @@ ListFormat::get_type(
     "A",         UPPER_ALPHA,
     "i",         LOWER_ROMAN,
     "I",         UPPER_ROMAN,
-    NULL
+    0
   );
 }
 

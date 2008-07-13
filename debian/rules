@@ -1,21 +1,29 @@
 #!/usr/bin/make -f
 
-# This script uses debhelper by Joey Hess
-export DH_VERBOSE=1
-export DH_COMPAT=4
+ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
+	DEB_CXXFLAGS += -O0
+else
+	DEB_CXXFLAGS += -O2
+endif
+
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	MAKEFLAGS += -j$(NUMJOBS)
+endif
+
+include /usr/share/quilt/quilt.make
 
 DEB=debian/html2text
 
-build:	build-stamp
-build-stamp:
+build: build-stamp
+build-stamp: debian/stamp-patched
 	dh_testdir
-	# build package here
 	./configure --prefix=$(DEB)/usr
-#	$(MAKE) depend
-	$(MAKE) LOCAL_LDFLAGS=-g
+	sed -i 's/$$(CXXFLAGS)/$$(CXXFLAGS) $$(DEB_CXXFLAGS)/g' Makefile
+	$(MAKE) DEB_CXXFLAGS=$(DEB_CXXFLAGS) LOCAL_LDFLAGS=-g 
 	touch build-stamp
 
-clean:
+clean: unpatch
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
@@ -28,28 +36,22 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-binary-indep:	build install
-binary-arch:	build install
-#	dh_testversion 2
+binary-indep:
+
+binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installdebconf
-	dh_installdirs usr/bin
-	# move files into $(DEB)
-	cp html2text $(DEB)/usr/bin
-	# dh_link src dest src dest...
-	dh_installdocs README TODO
+	dh_install html2text usr/bin
+	dh_installdocs README TODO ascii.substitutes
 	dh_installexamples pretty.style
 	dh_installmime
-	dh_installmenu
-# boo hoo - it doesn't recognise them!	
-#	dh_installmanpages
-	dh_installdirs usr/share/man/man1 usr/share/man/man5
-	gzip -c9 debian/html2text.1 > $(DEB)/usr/share/man/man1/html2text.1.gz
+	zcat html2text.1.gz | sed \
+		's,(HTTP 301/ 307),(HTTP 301/ 307).\nProxy servers are not supported,' \
+		| gzip -c9 > $(DEB)/usr/share/man/man1/html2text.1.gz
 	# darn, patch those typos (bug #309887 here)
-	gunzip -c html2textrc.5.gz | sed \
-	  "s/specifiy/specify/; s/elemet/element/; s/who's/whose/" \
-	  | gzip -c9 > $(DEB)/usr/share/man/man5/html2textrc.5.gz
+	zcat html2textrc.5.gz | sed \
+		"s/specifiy/specify/; s/elemet/element/; s/who's/whose/" \
+		| gzip -c9 > $(DEB)/usr/share/man/man5/html2textrc.5.gz
 	dh_installchangelogs CHANGES
 	dh_strip
 	dh_compress

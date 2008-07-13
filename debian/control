@@ -1,13 +1,21 @@
 Source: html2text
 Section: web
 Priority: optional
-Maintainer: Adrian Bridgett <bridgett@debian.org>
-Build-Depends: debhelper (>= 4)
-Standards-Version: 3.6.2.1
+Maintainer: Eugene V. Lyubimkin <jackyf.devel@gmail.com>
+Build-Depends: debhelper (>= 6), quilt (>= 0.40)
+Standards-Version: 3.8.0
+Homepage: http://www.mbayer.de/html2text/
 
 Package: html2text
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: An advanced HTML to text converter
+Description: advanced HTML to text converter
+ html2text is a converter from HTML to plain text.
+ .
+ html2text reads HTML documents supplied in the command line (or from standard
+ input), converts each of them into a stream of plain text characters and
+ writes output to the file or the terminal. It is able to produce ISO 8859-1 or
+ ASCII text.
+ .
  html2text was written because the author wasn't happy with the 
  output of "lynx -dump" and so he wrote something better.
