@@ -42,7 +42,7 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_install html2text usr/bin
-	dh_installdocs README TODO ascii.substitutes
+	dh_installdocs README debian/README.Debian TODO ascii.substitutes
 	dh_installexamples pretty.style
 	dh_installmime
 	zcat html2text.1.gz | sed \

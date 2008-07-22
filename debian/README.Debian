@@ -1,0 +1,24 @@
+--------------------------------
+Some notes about using html2text
+--------------------------------
+
+Now html2text lacks support of any complicated HTTP queries and answers.
+So, if command 'html2text http://www.server.org/aaa/bbb/ccc.html' failed to
+download the page properly, you can easy operate through using of curl ow wget
+packages:
+
+curl -s http://www.server.org/aaa/bbb/ccc.html | html2text
+wget http://www.server.org/aaa/bbb/ccc.html -O- | html2text
+
+Using wget or curl for downloading packages allow to use:
+ - proxy servers;
+ - https;
+ - ftp;
+ - some IPv6 support;
+ - and any other downloading feature that wget or curl supports.
+
+Try to use one of these approaches before submitting bugs about wrong
+downloading of the web pages.
+
+--
+Eugene V. Lyubimkin

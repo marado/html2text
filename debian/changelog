@@ -1,3 +1,14 @@
+html2text (1.3.2a-5) unstable; urgency=low
+
+  * debian/control:
+    - Added 'curl | wget' to Suggests.
+  * debian/README.Debian:
+    - Added with notes of using html2text with wget and curl.
+  * debian/rules:
+    - Added README.Debian to list of doc-files.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Tue, 22 Jul 2008 20:57:04 +0300
+
 html2text (1.3.2a-4) unstable; urgency=low
 
   * New maintainer. (Closes: #486760)
