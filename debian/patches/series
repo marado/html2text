@@ -1,3 +1,3 @@
-50-add-quotes-and-dash-substitutes.patch
 200-close-files-inside-main-loop.patch
 300-replace-zeroes-with-null.patch
+500-utf8-support.patch

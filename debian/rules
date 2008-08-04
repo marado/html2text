@@ -45,9 +45,7 @@ binary-arch: build install
 	dh_installdocs README debian/README.Debian TODO ascii.substitutes
 	dh_installexamples pretty.style
 	dh_installmime
-	zcat html2text.1.gz | sed \
-		's,(HTTP 301/ 307),(HTTP 301/ 307).\nProxy servers are not supported,' \
-		| gzip -c9 > $(DEB)/usr/share/man/man1/html2text.1.gz
+	dh_installman debian/html2text.1
 	# darn, patch those typos (bug #309887 here)
 	zcat html2textrc.5.gz | sed \
 		"s/specifiy/specify/; s/elemet/element/; s/who's/whose/" \
