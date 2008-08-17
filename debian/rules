@@ -1,11 +1,5 @@
 #!/usr/bin/make -f
 
-ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
-	DEB_CXXFLAGS += -O0
-else
-	DEB_CXXFLAGS += -O2
-endif
-
 ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 	MAKEFLAGS += -j$(NUMJOBS)
@@ -20,7 +14,7 @@ build-stamp: debian/stamp-patched
 	dh_testdir
 	./configure --prefix=$(DEB)/usr
 	sed -i 's/$$(CXXFLAGS)/$$(CXXFLAGS) $$(DEB_CXXFLAGS)/g' Makefile
-	$(MAKE) DEB_CXXFLAGS=$(DEB_CXXFLAGS) LOCAL_LDFLAGS=-g 
+	$(MAKE) DEB_CXXFLAGS="$(CFLAGS)" LOCAL_LDFLAGS=-g 
 	touch build-stamp
 
 clean: unpatch

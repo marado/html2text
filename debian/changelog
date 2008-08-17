@@ -1,3 +1,22 @@
+html2text (1.3.2a-7) experimental; urgency=low
+
+  * debian/patches:
+    - 500-utf8-support.patch: corrected calculating length of utf8 string
+      containing 3 or 4 bytes by character (important for Japanese, for
+      example). So, since now we claim support for all UTF-8 characters.
+      (Closes: #178684)
+    - 510-utf8-implies-nobs.patch: inserting backspaces by default is
+      completely breaks the output when utf8 mode is used. Thus '-utf8' option
+      now implies enabling '-nobs' option. (Closes: #495448)
+  * debian/html2text.1:
+    - Updated last modified date.
+    - Mentioned that '-utf8' now implies '-nobs'.
+  * debian/rules:
+    - Now using dpkg-buildpackage-provided CFLAGS variable. This adds '-Wall'
+      to compilation flags.
+
+ -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Sun, 17 Aug 2008 20:24:01 +0300
+
 html2text (1.3.2a-6) experimental; urgency=low
 
   * debian/patches:
