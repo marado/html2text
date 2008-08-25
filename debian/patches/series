@@ -1,4 +1,5 @@
 200-close-files-inside-main-loop.patch
+220-nobs-when-stdout-is-a-tty.patch
 300-replace-zeroes-with-null.patch
 500-utf8-support.patch
 510-utf8-implies-nobs.patch
