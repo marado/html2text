@@ -44,6 +44,8 @@ html2text \- an advanced HTML\-to\-text converter
 |
 .B \-utf8
 ] [
+.B \-nometa
+] [
 .IR input-url " ..."
 ]
 .SH DESCRIPTION
@@ -56,11 +58,6 @@ and writes the result to standard output (or into
 if the
 .B -o
 command line option is used).
-.P
-Documents that are specified by a URL (\fBRFC 1738\fR) that begins with
-"http:" are retrieved with the Hypertext Transfer Protocol
-(\fBRFC 1945\fR). URLs that begin with "file:" and URLs that do not
-contain a colon specify local files. All other URLs are invalid.
 .P
 If no
 .IR input-url s
@@ -99,8 +96,12 @@ RC file format is described in the
 manual page.
 .SH OPTIONS
 .TP
+.B \-nometa
+By default, Debian version of \fBhtml2text\fP use 'meta http-equiv' tag for
+input recoding. This option cancels this behavior. 
+.TP
 .B \-ascii
-By default,
+By default, when \fB\-nometa\fP is supplied,
 .B html2text
 uses
 .B ISO 8859\-1
@@ -110,7 +111,7 @@ is used instead. To find out how non\-ASCII characters are rendered, refer to
 the file "ascii.substitutes".
 .TP
 .B \-utf8
-By default,
+By default, when \fB\-nometa\fP is supplied,
 .B html2text
 uses
 .B ISO 8859\-1
@@ -210,15 +211,11 @@ Personal parser configuration file, overrides the system wide values.
 .SH "CONFORMING TO"
 .B "HTML 3.2"
 (HTML 3.2 Reference Specification \- http://www.w3.org/TR/REC-html32),
-.br
-.B "RFC 1945"
-(Hypertext Transfer Protocol \- HTTP).
 .SH RESTRICTIONS
+Debian version of
 .B html2text
-provides only a basic implementation of the Hypertext Transfer Protocol
-(HTTP). It requires the complete and exactly matching URL to be given as
-argument and will not follow redirections (HTTP 301/ 307). Proxy servers are
-not supported.
+have no http support. Use \fBhtml2text\fP through pipes with curl or wget
+instead. See README.Debian for more information.
 .P
 .B html2text
 was written to convert HTML 3.2 documents. When using it with HTML 4 or
@@ -231,10 +228,12 @@ for GMRS Software GmbH, Unterschleissheim.
 .P
 Current maintainer and primary download location is:
 .br
-Martin Bayer <mbayer@zedat.fu-berlin.de>
+Martin Bayer <mail@mbayer.de>
 .br
 .UR
-http://userpage.fu-berlin.de/~mbayer/tools/html2text.html
+http://www.mbayer.de/html2text/files.shtml
+.P
+This man page was modified for Debian by Eugene V. Lyubimkin <jackyf.devel@gmail.com>
 .UE
 .SH SEE ALSO
 .BR html2textrc (5),

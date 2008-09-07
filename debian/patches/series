@@ -1,5 +1,8 @@
 200-close-files-inside-main-loop.patch
 220-nobs-when-stdout-is-a-tty.patch
 300-replace-zeroes-with-null.patch
+400-remove-builtin-http-support.patch
 500-utf8-support.patch
 510-utf8-implies-nobs.patch
+600-multiple-meta-tags.patch
+611-recognize-input-encoding.patch

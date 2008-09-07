@@ -2,9 +2,12 @@
 Some notes about using html2text
 --------------------------------
 
-Now html2text lacks support of any complicated HTTP queries and answers.
-So, if command 'html2text http://www.server.org/aaa/bbb/ccc.html' failed to
-download the page properly, you can easy operate through using of curl ow wget
+1. HTTP support
+
+Original html2text lacks support of any complicated HTTP queries and answers.
+Debian version of html2text doesn't provide http support at all.
+
+However, you can easy operate through using of curl or wget
 packages:
 
 curl -s http://www.server.org/aaa/bbb/ccc.html | html2text
@@ -17,8 +20,14 @@ Using wget or curl for downloading packages allow to use:
  - some IPv6 support;
  - and any other downloading feature that wget or curl supports.
 
-Try to use one of these approaches before submitting bugs about wrong
-downloading of the web pages.
+Please, don't submit bugs about direct HTTP support, use appoach mentioned
+above instead.
+
+2. META HTTP-EQUIV tag processing
+
+Original html2text lacks support of recognizing encoding of html file.
+However, Debian version has it and even turned on by default. Use new '-nometa'
+option to restore original behavior.
 
 --
 Eugene V. Lyubimkin
