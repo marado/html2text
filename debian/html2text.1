@@ -1,10 +1,10 @@
 .\" This documentation was last modified by
 .\" Eugene V. Lyubimkin <jackyf.devel@gmail.com>
-.\" on Aug 24, 2008
+.\" on Sep 20, 2008
 .\"
 .\" Comments and suggestions are welcome.
 .\"
-.TH html2text 1 2008\-08\-24
+.TH html2text 1 2008\-09\-20
 .SH NAME
 html2text \- an advanced HTML\-to\-text converter
 .SH SYNOPSIS
@@ -94,6 +94,11 @@ formatting properties), then "reasonable" defaults are assumed. The
 RC file format is described in the
 .BR html2textrc (5)
 manual page.
+.P
+Debian version of \fBhtml2text\fP also can do input and output recoding.
+\fBhtml2text\fP tries to fetch encoding from HTML document. If encoding is not
+specified, you can use \fB\-ascii\fP and \fB\-utf8\fP options.
+Output is converted to user's locale charset (LC_CTYPE).
 .SH OPTIONS
 .TP
 .B \-nometa
@@ -105,7 +110,7 @@ By default, when \fB\-nometa\fP is supplied,
 .B html2text
 uses
 .B ISO 8859\-1
-for the output. Specifying this option, plain
+for the input. Specifying this option, plain
 .B ASCII
 is used instead. To find out how non\-ASCII characters are rendered, refer to
 the file "ascii.substitutes".
@@ -115,7 +120,7 @@ By default, when \fB\-nometa\fP is supplied,
 .B html2text
 uses
 .B ISO 8859\-1
-for the output. Specifying this option,
+for the input. Specifying this option,
 .B UTF-8
 is used instead (both for input and output). This option implies \fB\-nobs\fP.
 .
@@ -146,16 +151,10 @@ option is for diagnostic purposes.
 Print command line summary and exit.
 .TP
 .B \-nobs
-By default,
+By default, original
 .B html2text
 renders underlined letters with sequences like "underscore-backspace-character"
-and boldface letters like "character-backspace-character", which works fine
-when the output is piped into
-.BR more (1),
-.BR less (1),
-or similar. For other applications, or when redirecting the output into a file,
-it may be desirable not to render character attributes with such backspace
-sequences, which can be accomplished with this command line option.
+and boldface letters like "character-backspace-character". Because of issues with UTF-8, Debian version of \fBhtml2text\fP doesn't produce backspaces, so this option really does nothing.
 .TP
 .BI \-o " output\-file"
 Write the output to

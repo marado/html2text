@@ -23,11 +23,37 @@ Using wget or curl for downloading packages allow to use:
 Please, don't submit bugs about direct HTTP support, use appoach mentioned
 above instead.
 
-2. META HTTP-EQUIV tag processing
+2. Input recoding
 
 Original html2text lacks support of recognizing encoding of html file.
 However, Debian version has it and even turned on by default. Use new '-nometa'
 option to restore original behavior.
+
+To ensure html2text processes your document right, check that one of following
+cases is true:
+ - document has 'META HTTP-EQUIV' section with right encoding;
+ - document is encoded in ISO_8859-1;
+ - document is encoded in US ASCII and one of '-ascii' or '-utf8' options is
+   supplied;
+ - document is encoded in UTF-8 and '-utf8' option is supplied.
+
+3. Output recoding
+
+Original html2text has not support of output recoding. However, Debian version
+has.
+
+html2text recodes output to current user's locale charset, stored in LC_CTYPE
+variable. This has to work in most cases. If you need to recode output to some other charset, you have to specify
+
+LC_CTYPE=<locale>.<charset> html2text <options>
+
+If you have LC_ALL set, you have to substitute LC_CTYPE with the LC_ALL in the example above.
+
+4. Backspaces
+
+Debian version of html2text now does recoding, which leads to use multi-byte
+encodings.  Since backspace-producing code cannot work with multi-byte
+encodings (at least now), producing of backspaces are disabled.
 
 --
 Eugene V. Lyubimkin

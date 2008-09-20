@@ -1,9 +1,9 @@
 Recode input according to 'meta http-equiv' in html document.
 Index: html2text-1.3.2a/html2text.C
 ===================================================================
---- html2text-1.3.2a.orig/html2text.C	2008-09-13 16:56:02.202610597 +0300
-+++ html2text-1.3.2a/html2text.C	2008-09-13 17:51:58.424416161 +0300
-@@ -37,10 +37,16 @@
+--- html2text-1.3.2a.orig/html2text.C	2008-09-20 14:06:46.787386246 +0300
++++ html2text-1.3.2a/html2text.C	2008-09-20 14:09:32.009308515 +0300
+@@ -37,9 +37,15 @@
  
  #include <iostream>
  #include <fstream>
@@ -12,7 +12,6 @@ Index: html2text-1.3.2a/html2text.C
 +#include <iterator>
  #include <string.h>
  #include <stdlib.h>
- #include <unistd.h>
  
 +#include <iconv.h>
 +#include <errno.h>
@@ -20,7 +19,7 @@ Index: html2text-1.3.2a/html2text.C
  #include "html.h"
  #include "HTMLControl.h"
  //#include "urlistream.h"
-@@ -51,11 +57,15 @@
+@@ -50,11 +56,15 @@
  
  /* ------------------------------------------------------------------------- */
  using std::ifstream;
@@ -36,7 +35,7 @@ Index: html2text-1.3.2a/html2text.C
  
    MyParser(
      istream &is_,
-@@ -107,6 +117,23 @@
+@@ -106,6 +116,23 @@
  /*virtual*/ void
  MyParser::process(const Document &document)
  {
@@ -60,7 +59,78 @@ Index: html2text-1.3.2a/html2text.C
    switch (mode) {
  
    case PRINT_AS_ASCII:
-@@ -152,6 +179,7 @@
+@@ -126,6 +153,70 @@
+   }
+ }
+ 
++bool recode(stringstream& stream, const char* to_encoding, const char* from_encoding)
++{
++	iconv_t iconv_handle = iconv_open(to_encoding, from_encoding);
++	if (iconv_handle != iconv_t(-1))
++	{
++		stream.seekg(0);
++		string input_string = stream.str();
++		size_t input_size = input_string.size();
++		char* raw_input = new char[input_size+1];
++		char* const orig_raw_input = raw_input;
++		strcpy(raw_input, input_string.data());
++		size_t max_output_size = input_size * 4; // maximum possible overhead
++		char* raw_output = new char[max_output_size+1];
++		char* const orig_raw_output = raw_output;
++		size_t iconv_value =
++			iconv(iconv_handle, &raw_input, &input_size, &raw_output, &max_output_size);
++
++		if (iconv_value != (size_t)-1)
++		{
++			*raw_output = '\0';
++			stream.str(string(orig_raw_output));
++			/* debug */
++			//std::copy(istream_iterator<char>(input_stream), istream_iterator<char>(), ostream_iterator<char>(std::cerr));
++		}
++
++		delete [] orig_raw_input;
++		delete [] orig_raw_output;
++		iconv_close(iconv_handle);
++
++		if (iconv_value == (size_t)-1)
++		{
++			std::cerr << "Input recoding failed due to ";
++			if (errno == EILSEQ)
++			{
++				std::cerr << "invalid input sequence.";
++				/* debug */
++				std::cout << raw_input;
++			}
++			else
++			{
++				std::cerr << "unknown reason.";
++			}
++			std::cerr << std::endl;
++			return false;
++		}
++	}
++	else
++	{
++		if (errno == EINVAL)
++		{
++			std::cerr << "Recoding from '" << from_encoding
++				<< "' to '" << to_encoding << "' is not available." << std::endl;
++			std::cerr << "Check that '" << from_encoding
++				<< "' is a valid encoding." << std::endl;
++		}
++		else
++		{
++			std::cerr << "Error: cannot setup recoding." << std::endl;
++		}
++		return false;
++	}
++	return true;
++}
++
+ /* ------------------------------------------------------------------------- */
+ 
+ static const char *usage = "\
+@@ -151,6 +242,7 @@
    -nobs          Do not use backspaces for boldface and underlining\n\
    -ascii         Use plain ASCII for output instead of ISO-8859-1\n\
    -utf8          Assume both terminal and input stream are in UTF-8 mode\n\
@@ -68,15 +138,15 @@ Index: html2text-1.3.2a/html2text.C
  ";
  
  int use_encoding = ISO8859;
-@@ -189,6 +217,7 @@
+@@ -188,6 +280,7 @@
    int        width             = 79;
    const char *output_file_name = "-";
-   bool       use_backspaces    = true;
+   bool       use_backspaces    = false;
 +  bool       use_meta          = true;
  
    int i;
    for (i = 1; i < argc && argv[i][0] == '-' && argv[i][1]; i++) {
-@@ -205,6 +234,7 @@
+@@ -204,6 +297,7 @@
      if (!strcmp(arg, "-nobs"         )) { use_backspaces = false;        } else
      if (!strcmp(arg, "-ascii"        )) { use_encoding = ASCII;          } else
      if (!strcmp(arg, "-utf8"         )) { use_encoding = UTF8;           } else
@@ -84,31 +154,11 @@ Index: html2text-1.3.2a/html2text.C
      {
        std::cerr
  	<< "Unrecognized command line option \""
-@@ -214,6 +244,10 @@
-       exit(1);
-     }
-   }
-+  if (use_meta)
-+  {
-+    use_encoding = UTF8;
-+  }
-   if (use_encoding == UTF8)
-   {
- 	  use_backspaces = false;
-@@ -365,30 +399,141 @@
+@@ -356,30 +450,117 @@
      }
  
      istream    *isp;
 -    ifstream     uis;
--
--    uis.open(input_url);
--    if (!uis.is_open()) {
--      std::cerr
--        << "Cannot open input file \""
--	<< input_url
--        << "\"."
--        << std::endl;
--      exit(1);
 +    istream    *uis;
 +	ifstream* infile = NULL;
 +	stringstream input_stream;
@@ -131,20 +181,26 @@ Index: html2text-1.3.2a/html2text.C
 +		  exit(1);
 +		}
 +		uis = infile;
-     }
++    }
  
--    MyParser parser(
--      uis,
--      debug_scanner,
--      debug_parser,
--      *osp,
--      mode,
--      width,
--      input_url
--    );
+-    uis.open(input_url);
+-    if (!uis.is_open()) {
+-      std::cerr
+-        << "Cannot open input file \""
+-	<< input_url
+-        << "\"."
+-        << std::endl;
+-      exit(1);
 +	*uis >> std::noskipws;
 +	std::copy(istream_iterator<char>(*uis), istream_iterator<char>(), ostream_iterator<char>(input_stream));
 +
++	if (infile)
++	{
++		infile->close();
++		delete infile;
++	}
++
++	string from_encoding;
 +	if (use_meta)
 +	{
 +		std::ofstream fake_osp("/dev/null");
@@ -160,83 +216,66 @@ Index: html2text-1.3.2a/html2text.C
 +        );
 +		if (parser.yyparse() != 0) exit(1);
 +
-+		if (!parser.meta_encoding.empty()) // recode input
++		from_encoding = parser.meta_encoding;
++
++		// don't need to debug twice ...
++		debug_scanner = false;
++		debug_parser = false;
++
++		/*
++		 * It will be good to show warning in this case. But there are too many
++		 * html documents without encoding info, so this branch is commented by
++		 * now.
++		if (parser.meta_encoding.empty())
 +		{
-+			iconv_t iconv_handle = iconv_open("UTF-8", parser.meta_encoding.data());
-+			if (iconv_handle != iconv_t(-1))
-+			{
-+				input_stream.seekg(0);
-+				string input_string = input_stream.str();
-+				size_t input_size = input_string.size();
-+				char* raw_input = new char[input_size+1];
-+				char* const orig_raw_input = raw_input;
-+				strcpy(raw_input, input_string.data());
-+				size_t max_output_size = input_size * 4; // maximum possible overhead
-+				char* raw_output = new char[max_output_size+1];
-+				char* const orig_raw_output = raw_output;
-+				size_t iconv_value =
-+					iconv(iconv_handle, &raw_input, &input_size, &raw_output, &max_output_size);
-+
-+				if (iconv_value != (size_t)-1)
-+				{
-+					input_stream.str(string(orig_raw_output));
-+					input_stream.clear();
-+					input_stream.seekg(0);
-+					/* debug */
-+					//std::copy(istream_iterator<char>(input_stream), istream_iterator<char>(), ostream_iterator<char>(std::cerr));
-+				}
-+
-+				delete [] orig_raw_input;
-+				delete [] orig_raw_output;
-+				iconv_close(iconv_handle);
-+
-+				if (iconv_value == (size_t)-1)
-+				{
-+					std::cerr << "Input recoding failed due to ";
-+					if (errno == EILSEQ)
-+					{
-+						std::cerr << "invalid input sequence.";
-+						/* debug */
-+						std::cout << raw_input;
-+					}
-+					else
-+					{
-+						std::cerr << "unknown reason.";
-+					}
-+					std::cerr << std::endl;
-+					continue;
-+				}
-+			}
-+			else
-+			{
-+				if (errno == EINVAL)
-+				{
-+					std::cerr << "Recoding from '" << parser.meta_encoding
-+						<< "' to 'UTF-8' is not available." << std::endl;
-+					std::cerr << "Check that '" << parser.meta_encoding
-+						<< "' is a valid encoding." << std::endl;
-+				}
-+				else
-+				{
-+					std::cerr << "Error: cannot setup recoding." << std::endl;
-+				}
-+				continue;
-+			}
++			std::cerr << "Warning: cannot determine encoding from html file." << std::endl;
++			std::cerr << "To remove this warning, use '-nometa' option with, optionally, '-utf8' or '-ascii' options" << std::endl;
++			std::cerr << "to process file \"" << input_url << "\"." << std::endl;
++		}
++		*/
++	}
++	if (from_encoding.empty()) // -nometa supplied or no appropriate tag
++	{
++		if (use_encoding == UTF8)
++		{
++			from_encoding = "UTF-8";
++		}
++		else if (use_encoding == ASCII)
++		{
++			from_encoding = "ASCII";
 +		}
 +		else
 +		{
-+			std::cerr << "Error: cannot determine encoding from html file." << std::endl;
-+			std::cerr << "Use '-nometa' option with, optionally, '-utf8' or '-ascii' options" << std::endl;
-+			std::cerr << "to process file \"" << input_url << "\"." << std::endl;
-+			continue;
++			from_encoding = "ISO_8859-1";
 +		}
++	}
++
++	// recode input
++	bool result = recode(input_stream, "UTF-8", from_encoding.data());
++	if (!result)
++	{
++		continue;
 +	}
 +
 +    if (number_of_input_urls != 1) {
 +      *osp << "###### " << input_url << " ######" << std::endl;
-+    }
+     }
+ 
+-    MyParser parser(
+-      uis,
+-      debug_scanner,
+-      debug_parser,
+-      *osp,
+-      mode,
+-      width,
+-      input_url
+-    );
++	// real parsing now always process UTF-8
++	use_encoding = UTF8;
  
 +	// real parsing
++	input_stream.clear();
++	input_stream.seekg(0);
 +	MyParser parser(
 +	  input_stream,
 +	  debug_scanner,
@@ -249,11 +288,6 @@ Index: html2text-1.3.2a/html2text.C
      if (parser.yyparse() != 0) exit(1);
 -	uis.close();
 +
-+	if (infile)
-+	{
-+		infile->close();
-+		delete infile;
-+	}
    }
  
    return 0;

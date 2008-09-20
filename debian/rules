@@ -36,7 +36,7 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_install html2text usr/bin
-	dh_installdocs README debian/README.Debian TODO ascii.substitutes
+	dh_installdocs README debian/NEWS.Debian debian/README.Debian TODO ascii.substitutes
 	dh_installexamples pretty.style
 	dh_installmime
 	dh_installman debian/html2text.1

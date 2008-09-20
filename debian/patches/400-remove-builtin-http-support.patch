@@ -1,16 +1,15 @@
 Remove limited built-in http support.
 Index: html2text-1.3.2a/html2text.C
 ===================================================================
---- html2text-1.3.2a.orig/html2text.C	2008-09-13 09:03:53.447286248 +0300
-+++ html2text-1.3.2a/html2text.C	2008-09-13 09:10:07.310587099 +0300
-@@ -36,19 +36,21 @@
+--- html2text-1.3.2a.orig/html2text.C	2008-09-20 14:02:03.030954214 +0300
++++ html2text-1.3.2a/html2text.C	2008-09-20 14:03:39.181744957 +0300
+@@ -36,18 +36,20 @@
  
  
  #include <iostream>
 +#include <fstream>
  #include <string.h>
  #include <stdlib.h>
- #include <unistd.h>
  
  #include "html.h"
  #include "HTMLControl.h"
@@ -26,7 +25,7 @@ Index: html2text-1.3.2a/html2text.C
  
  class MyParser : public HTMLControl {
  
-@@ -56,7 +58,7 @@
+@@ -55,7 +57,7 @@
    enum { PRINT_AS_ASCII, UNPARSE, SYNTAX_CHECK };
  
    MyParser(
@@ -35,7 +34,7 @@ Index: html2text-1.3.2a/html2text.C
      bool       debug_scanner_,
      bool       debug_parser_,
      ostream    &os_,
-@@ -357,15 +359,14 @@
+@@ -352,15 +354,14 @@
      }
  
      istream    *isp;
@@ -56,8 +55,8 @@ Index: html2text-1.3.2a/html2text.C
      }
 Index: html2text-1.3.2a/HTMLControl.h
 ===================================================================
---- html2text-1.3.2a.orig/HTMLControl.h	2008-09-13 09:10:33.534257497 +0300
-+++ html2text-1.3.2a/HTMLControl.h	2008-09-13 09:11:38.229442778 +0300
+--- html2text-1.3.2a.orig/HTMLControl.h	2008-09-20 14:01:44.527185508 +0300
++++ html2text-1.3.2a/HTMLControl.h	2008-09-20 14:03:39.181744957 +0300
 @@ -38,7 +38,6 @@
  /* ------------------------------------------------------------------------- */
  
@@ -86,8 +85,8 @@ Index: html2text-1.3.2a/HTMLControl.h
  };
 Index: html2text-1.3.2a/Makefile.in
 ===================================================================
---- html2text-1.3.2a.orig/Makefile.in	2008-09-13 09:42:55.425843019 +0300
-+++ html2text-1.3.2a/Makefile.in	2008-09-13 09:43:06.637704443 +0300
+--- html2text-1.3.2a.orig/Makefile.in	2008-09-20 14:01:44.571185514 +0300
++++ html2text-1.3.2a/Makefile.in	2008-09-20 14:03:39.181744957 +0300
 @@ -68,7 +68,7 @@
  	@echo '"/usr/local/bin", "/usr/local/man/man1" and "/usr/local/man/man5").';
  	@echo

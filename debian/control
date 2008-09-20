@@ -15,8 +15,10 @@ Description: advanced HTML to text converter
  .
  html2text reads HTML documents supplied in the command line (or from standard
  input), converts each of them into a stream of plain text characters and
- writes output to the file or the terminal. It is able to produce ISO 8859-1 or
- ASCII text.
+ writes output to the file or the terminal.
+ .
+ Debian version also can recognize encoding of documents, do on-fly
+ input and output recoding.
  .
  html2text was written because the author wasn't happy with the 
  output of "lynx -dump" and so he wrote something better.
