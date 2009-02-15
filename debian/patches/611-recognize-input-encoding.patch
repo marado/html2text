@@ -1,8 +1,8 @@
 Recode input according to 'meta http-equiv' in html document.
-Index: html2text-1.3.2a/html2text.C
+Index: html2text/html2text.C
 ===================================================================
---- html2text-1.3.2a.orig/html2text.C	2008-09-20 14:06:46.787386246 +0300
-+++ html2text-1.3.2a/html2text.C	2008-09-20 14:09:32.009308515 +0300
+--- html2text.orig/html2text.C	2009-02-15 21:59:10.768482744 +0200
++++ html2text/html2text.C	2009-02-15 22:27:59.236808189 +0200
 @@ -37,9 +37,15 @@
  
  #include <iostream>
@@ -59,7 +59,7 @@ Index: html2text-1.3.2a/html2text.C
    switch (mode) {
  
    case PRINT_AS_ASCII:
-@@ -126,6 +153,70 @@
+@@ -126,6 +153,72 @@
    }
  }
  
@@ -87,6 +87,20 @@ Index: html2text-1.3.2a/html2text.C
 +			/* debug */
 +			//std::copy(istream_iterator<char>(input_stream), istream_iterator<char>(), ostream_iterator<char>(std::cerr));
 +		}
++		else
++		{
++			std::cerr << "Input recoding failed due to ";
++			if (errno == EILSEQ)
++			{
++				std::cerr << "invalid input sequence. Unconverted part of text follows." << std::endl;
++				std::cerr << raw_input;
++			}
++			else
++			{
++				std::cerr << "unknown reason.";
++			}
++			std::cerr << std::endl;
++		}
 +
 +		delete [] orig_raw_input;
 +		delete [] orig_raw_output;
@@ -94,18 +108,6 @@ Index: html2text-1.3.2a/html2text.C
 +
 +		if (iconv_value == (size_t)-1)
 +		{
-+			std::cerr << "Input recoding failed due to ";
-+			if (errno == EILSEQ)
-+			{
-+				std::cerr << "invalid input sequence.";
-+				/* debug */
-+				std::cout << raw_input;
-+			}
-+			else
-+			{
-+				std::cerr << "unknown reason.";
-+			}
-+			std::cerr << std::endl;
 +			return false;
 +		}
 +	}
@@ -130,7 +132,7 @@ Index: html2text-1.3.2a/html2text.C
  /* ------------------------------------------------------------------------- */
  
  static const char *usage = "\
-@@ -151,6 +242,7 @@
+@@ -151,6 +244,7 @@
    -nobs          Do not use backspaces for boldface and underlining\n\
    -ascii         Use plain ASCII for output instead of ISO-8859-1\n\
    -utf8          Assume both terminal and input stream are in UTF-8 mode\n\
@@ -138,7 +140,7 @@ Index: html2text-1.3.2a/html2text.C
  ";
  
  int use_encoding = ISO8859;
-@@ -188,6 +280,7 @@
+@@ -188,6 +282,7 @@
    int        width             = 79;
    const char *output_file_name = "-";
    bool       use_backspaces    = false;
@@ -146,7 +148,7 @@ Index: html2text-1.3.2a/html2text.C
  
    int i;
    for (i = 1; i < argc && argv[i][0] == '-' && argv[i][1]; i++) {
-@@ -204,6 +297,7 @@
+@@ -204,6 +299,7 @@
      if (!strcmp(arg, "-nobs"         )) { use_backspaces = false;        } else
      if (!strcmp(arg, "-ascii"        )) { use_encoding = ASCII;          } else
      if (!strcmp(arg, "-utf8"         )) { use_encoding = UTF8;           } else
@@ -154,7 +156,7 @@ Index: html2text-1.3.2a/html2text.C
      {
        std::cerr
  	<< "Unrecognized command line option \""
-@@ -356,30 +450,117 @@
+@@ -356,30 +452,117 @@
      }
  
      istream    *isp;
