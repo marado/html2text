@@ -2,10 +2,13 @@ html2text (1.3.2a-11) unstable; urgency=low
 
   * debian/patches:
     - 611-recognize-input-encoding.patch:
-      - When received invalid multi-byte sequence on input, output not converted
+      - When received invalid multi-byte sequence on input, output non-converted
         text to stderr, not to stdout.
       - Fixed possible usage of freed memory in case of invalid input
         sequence.
+    - 500-utf8-support.patch:
+      - Provided valid Unicode character for "superscript zero", fixes
+        "illegal sequence error" for pages containing unchecked checkboxes.
 
  -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Sun, 15 Feb 2009 17:26:15 +0200
 

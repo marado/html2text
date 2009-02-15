@@ -1,8 +1,8 @@
 Support UTF-8 encoding when processing input.
-Index: html2text-1.3.2a/Area.C
+Index: html2text/Area.C
 ===================================================================
---- html2text-1.3.2a.orig/Area.C	2008-09-20 14:01:44.259190763 +0300
-+++ html2text-1.3.2a/Area.C	2008-09-20 14:06:15.255782998 +0300
+--- html2text.orig/Area.C	2009-02-15 23:39:22.640485408 +0200
++++ html2text/Area.C	2009-02-15 23:40:12.685480652 +0200
 @@ -36,10 +36,13 @@
  #include <iostream>
  
@@ -109,10 +109,10 @@ Index: html2text-1.3.2a/Area.C
  
        if (a == Cell::NONE) {
          os << c;
-Index: html2text-1.3.2a/Area.h
+Index: html2text/Area.h
 ===================================================================
---- html2text-1.3.2a.orig/Area.h	2008-09-20 14:01:44.295185701 +0300
-+++ html2text-1.3.2a/Area.h	2008-09-20 14:06:15.255782998 +0300
+--- html2text.orig/Area.h	2009-02-15 23:39:22.652485187 +0200
++++ html2text/Area.h	2009-02-15 23:40:12.685480652 +0200
 @@ -81,6 +81,8 @@
    Cell       &operator[](size_type x)       { return cells_[x]; }
    const Cell *cells() const { return cells_; }
@@ -131,11 +131,29 @@ Index: html2text-1.3.2a/Area.h
    void resize(size_type w, size_type h);
    void enlarge(size_type w, size_type h);
  
-Index: html2text-1.3.2a/format.C
+Index: html2text/format.C
 ===================================================================
---- html2text-1.3.2a.orig/format.C	2008-09-20 14:01:44.311190459 +0300
-+++ html2text-1.3.2a/format.C	2008-09-20 14:06:15.259781132 +0300
-@@ -1210,6 +1210,7 @@
+--- html2text.orig/format.C	2009-02-15 23:39:22.664485455 +0200
++++ html2text/format.C	2009-02-15 23:42:49.762461168 +0200
+@@ -56,6 +56,8 @@
+ #define nelems(array) (sizeof(array) / sizeof((array)[0]))
+ #endif
+ 
++extern int use_encoding;
++
+ /* ------------------------------------------------------------------------- */
+ 
+ static Line *line_format(const list<auto_ptr<Element> > *elements);
+@@ -882,7 +884,7 @@
+     res = '[' + string(size, '*') + ']';
+   } else
+   if (cmp_nocase(type, "CHECKBOX") == 0) {
+-    res = checked ? '*' : LATIN1_ordm; // "ordm" looks like a superscript zero.
++    res = checked ? string("*") : (USE_UTF8 ? string("\u2070") : string(1, LATIN1_ordm)); // "ordm" looks like a superscript zero.
+   } else
+   if (cmp_nocase(type, "RADIO") == 0) {
+     res = checked ? '#' : 'o';
+@@ -1210,6 +1212,7 @@
      }
  
      Line::size_type to = from + 1;
@@ -143,7 +161,7 @@ Index: html2text-1.3.2a/format.C
  
      Line::size_type lbp = (Line::size_type) -1; // "Last break position".
  
-@@ -1238,18 +1239,20 @@
+@@ -1238,18 +1241,20 @@
          to++;
        }
  
@@ -168,10 +186,10 @@ Index: html2text-1.3.2a/format.C
      res->insert(line.cells() + from, len, x, res->height());
  
      /*
-Index: html2text-1.3.2a/html2text.C
+Index: html2text/html2text.C
 ===================================================================
---- html2text-1.3.2a.orig/html2text.C	2008-09-20 14:03:39.181744957 +0300
-+++ html2text-1.3.2a/html2text.C	2008-09-20 14:06:15.259781132 +0300
+--- html2text.orig/html2text.C	2009-02-15 23:40:12.665490961 +0200
++++ html2text/html2text.C	2009-02-15 23:40:12.685480652 +0200
 @@ -150,9 +150,10 @@
    -o <file>      Redirect output into <file>\n\
    -nobs          Do not use backspaces for boldface and underlining\n\
@@ -194,10 +212,10 @@ Index: html2text-1.3.2a/html2text.C
      {
        std::cerr
  	<< "Unrecognized command line option \""
-Index: html2text-1.3.2a/html.h
+Index: html2text/html.h
 ===================================================================
---- html2text-1.3.2a.orig/html.h	2008-09-20 14:01:44.343193129 +0300
-+++ html2text-1.3.2a/html.h	2008-09-20 14:06:15.259781132 +0300
+--- html2text.orig/html.h	2009-02-15 23:39:22.676484256 +0200
++++ html2text/html.h	2009-02-15 23:40:12.685480652 +0200
 @@ -61,6 +61,11 @@
  
  /* ------------------------------------------------------------------------- */
@@ -210,10 +228,10 @@ Index: html2text-1.3.2a/html.h
  #define LATIN1_nbsp   160
  #define LATIN1_iexcl  161
  #define LATIN1_cent   162
-Index: html2text-1.3.2a/sgml.C
+Index: html2text/sgml.C
 ===================================================================
---- html2text-1.3.2a.orig/sgml.C	2008-09-20 14:01:44.391192735 +0300
-+++ html2text-1.3.2a/sgml.C	2008-09-20 14:06:15.259781132 +0300
+--- html2text.orig/sgml.C	2009-02-15 23:39:22.704491236 +0200
++++ html2text/sgml.C	2009-02-15 23:40:12.689491985 +0200
 @@ -62,261 +62,280 @@
    char name[8];
    int  iso8859code;
@@ -717,10 +735,10 @@ Index: html2text-1.3.2a/sgml.C
        }
      } else {
        ;                         /* EXTENSION: Allow literal '&' sometimes. */
-Index: html2text-1.3.2a/table.C
+Index: html2text/table.C
 ===================================================================
---- html2text-1.3.2a.orig/table.C	2008-09-20 14:01:44.415186916 +0300
-+++ html2text-1.3.2a/table.C	2008-09-20 14:06:15.259781132 +0300
+--- html2text.orig/table.C	2009-02-15 23:39:22.716484170 +0200
++++ html2text/table.C	2009-02-15 23:40:12.689491985 +0200
 @@ -175,7 +175,7 @@
            - (*number_of_columns_return - 1) * (column_spacing + 0),
            Area::LEFT // Yields better results than "p->halign"!
