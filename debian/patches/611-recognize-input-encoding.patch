@@ -1,8 +1,8 @@
 Recode input according to 'meta http-equiv' in html document.
 Index: html2text/html2text.C
 ===================================================================
---- html2text.orig/html2text.C	2009-02-15 21:59:10.768482744 +0200
-+++ html2text/html2text.C	2009-02-15 22:27:59.236808189 +0200
+--- html2text.orig/html2text.C	2009-02-22 10:12:04.111911199 +0200
++++ html2text/html2text.C	2009-02-22 10:38:51.431998444 +0200
 @@ -37,9 +37,15 @@
  
  #include <iostream>
@@ -156,11 +156,20 @@ Index: html2text/html2text.C
      {
        std::cerr
  	<< "Unrecognized command line option \""
-@@ -356,30 +452,117 @@
+@@ -356,30 +452,125 @@
      }
  
      istream    *isp;
 -    ifstream     uis;
+-
+-    uis.open(input_url);
+-    if (!uis.is_open()) {
+-      std::cerr
+-        << "Cannot open input file \""
+-	<< input_url
+-        << "\"."
+-        << std::endl;
+-      exit(1);
 +    istream    *uis;
 +	ifstream* infile = NULL;
 +	stringstream input_stream;
@@ -183,19 +192,20 @@ Index: html2text/html2text.C
 +		  exit(1);
 +		}
 +		uis = infile;
-+    }
+     }
  
--    uis.open(input_url);
--    if (!uis.is_open()) {
--      std::cerr
--        << "Cannot open input file \""
--	<< input_url
--        << "\"."
--        << std::endl;
--      exit(1);
+-    MyParser parser(
+-      uis,
+-      debug_scanner,
+-      debug_parser,
+-      *osp,
+-      mode,
+-      width,
+-      input_url
+-    );
 +	*uis >> std::noskipws;
 +	std::copy(istream_iterator<char>(*uis), istream_iterator<char>(), ostream_iterator<char>(input_stream));
-+
+ 
 +	if (infile)
 +	{
 +		infile->close();
@@ -244,7 +254,8 @@ Index: html2text/html2text.C
 +		}
 +		else if (use_encoding == ASCII)
 +		{
-+			from_encoding = "ASCII";
++			// is ASCII mode we don't need recoding at all
++			from_encoding = "";
 +		}
 +		else
 +		{
@@ -252,8 +263,12 @@ Index: html2text/html2text.C
 +		}
 +	}
 +
-+	// recode input
-+	bool result = recode(input_stream, "UTF-8", from_encoding.data());
++	bool result = true;
++	if (!from_encoding.empty())
++	{
++		// recode input
++		result = recode(input_stream, "UTF-8", from_encoding.data());
++	}
 +	if (!result)
 +	{
 +		continue;
@@ -261,20 +276,14 @@ Index: html2text/html2text.C
 +
 +    if (number_of_input_urls != 1) {
 +      *osp << "###### " << input_url << " ######" << std::endl;
-     }
- 
--    MyParser parser(
--      uis,
--      debug_scanner,
--      debug_parser,
--      *osp,
--      mode,
--      width,
--      input_url
--    );
-+	// real parsing now always process UTF-8
-+	use_encoding = UTF8;
- 
++    }
++
++	// real parsing now always process UTF-8 (except for ASCII mode)
++	if (use_encoding != ASCII)
++	{
++		use_encoding = UTF8;
++	}
++
 +	// real parsing
 +	input_stream.clear();
 +	input_stream.seekg(0);
