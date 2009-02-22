@@ -22,6 +22,7 @@ clean: unpatch
 	dh_testroot
 	rm -f build-stamp
 	-rm -rf Makefile html2text *.o configure-tmp Dependencies
+	rm -f debian/tests/*.result
 	dh_clean
 
 install: build
@@ -30,9 +31,12 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
+test: build
+	cd debian/tests/ && ./runtests
+
 binary-indep:
 
-binary-arch: build install
+binary-arch: build install test
 	dh_testdir
 	dh_testroot
 	dh_install html2text usr/bin
@@ -55,4 +59,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary:	binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary
+.PHONY: build clean binary-indep binary-arch binary test
