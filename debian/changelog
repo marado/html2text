@@ -2,6 +2,7 @@ html2text (1.3.2a-12) unstable; urgency=low
 
   * debian/control:
     - Added 'Vcs-Git' and 'Vcs-Browser' fields.
+    - Allow DM uploads.
   * debian/README.Debian:
     - Fix bunch of spelling mistakes. Thanks to David Starner
       <prosfilaes@gmail.com> for the patch. (Closes: #516006)
