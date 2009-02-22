@@ -1,8 +1,8 @@
 Support UTF-8 encoding when processing input.
 Index: html2text/Area.C
 ===================================================================
---- html2text.orig/Area.C	2009-02-15 23:42:56.349481511 +0200
-+++ html2text/Area.C	2009-02-16 20:03:56.955157051 +0200
+--- html2text.orig/Area.C	2009-02-22 10:42:07.210901361 +0200
++++ html2text/Area.C	2009-02-22 11:12:06.906900285 +0200
 @@ -36,10 +36,13 @@
  #include <iostream>
  
@@ -111,8 +111,8 @@ Index: html2text/Area.C
          os << c;
 Index: html2text/Area.h
 ===================================================================
---- html2text.orig/Area.h	2009-02-15 23:42:56.365481380 +0200
-+++ html2text/Area.h	2009-02-16 20:03:56.955157051 +0200
+--- html2text.orig/Area.h	2009-02-22 10:42:07.226900740 +0200
++++ html2text/Area.h	2009-02-22 11:12:06.906900285 +0200
 @@ -81,6 +81,8 @@
    Cell       &operator[](size_type x)       { return cells_[x]; }
    const Cell *cells() const { return cells_; }
@@ -133,8 +133,8 @@ Index: html2text/Area.h
  
 Index: html2text/format.C
 ===================================================================
---- html2text.orig/format.C	2009-02-15 23:42:56.377483605 +0200
-+++ html2text/format.C	2009-02-16 20:15:47.498153364 +0200
+--- html2text.orig/format.C	2009-02-22 10:42:07.238901496 +0200
++++ html2text/format.C	2009-02-22 11:12:06.910903797 +0200
 @@ -56,6 +56,8 @@
  #define nelems(array) (sizeof(array) / sizeof((array)[0]))
  #endif
@@ -202,8 +202,17 @@ Index: html2text/format.C
      /*
 Index: html2text/html2text.C
 ===================================================================
---- html2text.orig/html2text.C	2009-02-16 20:03:56.919160156 +0200
-+++ html2text/html2text.C	2009-02-16 20:14:51.974154718 +0200
+--- html2text.orig/html2text.C	2009-02-22 11:12:06.886905215 +0200
++++ html2text/html2text.C	2009-02-22 11:12:35.386897321 +0200
+@@ -134,7 +134,7 @@
+   html2text -version\n\
+   html2text [ -unparse | -check ] [ -debug-scanner ] [ -debug-parser ] \\\n\
+      [ -rcfile <file> ] [ -style ( compact | pretty ) ] [ -width <w> ] \\\n\
+-     [ -o <file> ] [ -nobs ] [ -ascii ] [ <input-url> ] ...\n\
++     [ -o <file> ] [ -nobs ] [ -ascii | -utf8 ] [ <input-url> ] ...\n\
+ Formats HTML document(s) read from <input-url> or STDIN and generates ASCII\n\
+ text.\n\
+   -help          Print this text and exit\n\
 @@ -150,9 +150,10 @@
    -o <file>      Redirect output into <file>\n\
    -nobs          Do not use backspaces for boldface and underlining\n\
@@ -228,8 +237,8 @@ Index: html2text/html2text.C
  	<< "Unrecognized command line option \""
 Index: html2text/html.h
 ===================================================================
---- html2text.orig/html.h	2009-02-15 23:42:56.389480940 +0200
-+++ html2text/html.h	2009-02-16 20:14:51.830155406 +0200
+--- html2text.orig/html.h	2009-02-22 10:42:07.254910163 +0200
++++ html2text/html.h	2009-02-22 11:12:06.910903797 +0200
 @@ -61,6 +61,11 @@
  
  /* ------------------------------------------------------------------------- */
@@ -244,8 +253,8 @@ Index: html2text/html.h
  #define LATIN1_cent   162
 Index: html2text/sgml.C
 ===================================================================
---- html2text.orig/sgml.C	2009-02-15 23:42:56.413480989 +0200
-+++ html2text/sgml.C	2009-02-16 20:14:31.882156917 +0200
+--- html2text.orig/sgml.C	2009-02-22 10:42:07.278901407 +0200
++++ html2text/sgml.C	2009-02-22 11:12:06.910903797 +0200
 @@ -62,261 +62,280 @@
    char name[8];
    int  iso8859code;
@@ -751,8 +760,8 @@ Index: html2text/sgml.C
        ;                         /* EXTENSION: Allow literal '&' sometimes. */
 Index: html2text/table.C
 ===================================================================
---- html2text.orig/table.C	2009-02-15 23:42:56.429486236 +0200
-+++ html2text/table.C	2009-02-16 20:14:51.366163125 +0200
+--- html2text.orig/table.C	2009-02-22 10:42:07.294899319 +0200
++++ html2text/table.C	2009-02-22 11:12:06.910903797 +0200
 @@ -175,7 +175,7 @@
            - (*number_of_columns_return - 1) * (column_spacing + 0),
            Area::LEFT // Yields better results than "p->halign"!

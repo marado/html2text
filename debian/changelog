@@ -11,6 +11,8 @@ html2text (1.3.2a-12) unstable; urgency=low
     - 611-recognize-input-encoding.patch:
       - Don't recode input stream if encoding is set to ASCII. Thanks to
         Kevin Ryde <user42@zip.com.au>. (Closes: #516029)
+    - 500-utf8-support.patch:
+      - Added '-utf8' option to the synopsis of built-in help output.
   * debian/html2text.1:
     - Corrected: -ascii option is used for output, not for input.
 
