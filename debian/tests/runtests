@@ -8,6 +8,7 @@ function check
 {
 	../../html2text $2 $1 > $1.result
 	cmp $1.result $1.supposed
+	return
 }
 
 check cp1251.html
