@@ -3,6 +3,10 @@ html2text (1.3.2a-13) unstable; urgency=low
   * debian/rules:
     - Don't run debian/tests/runtest explicitly, but through an interpreter.
       Fixes FTBFS. (Closes: #516792)
+  * debian/patches:
+    - 630-recode-output-to-locale-charset.patch: do output recoding only if
+      output is a terminal. Updated debian/README.Debian and debian/html2text.1
+      accordingly.
 
  -- Eugene V. Lyubimkin <jackyf.devel@gmail.com>  Mon, 23 Feb 2009 21:08:21 +0200
 

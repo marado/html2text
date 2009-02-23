@@ -42,6 +42,8 @@ following cases is true:
 The original html2text doesn't have support for output recoding. 
 However, the Debian version does.
 
+Note that this recoding will be done only if output is a terminal.
+
 html2text recodes output into the current user's locale charset, stored 
 in LC_CTYPE. This will work in most cases. If you need to recode output 
 to some other charset, you have to specify

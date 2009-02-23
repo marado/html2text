@@ -1,17 +1,18 @@
 Convert output to user's locale charset.
-Index: html2text-1.3.2a/html2text.C
+Index: html2text/html2text.C
 ===================================================================
---- html2text-1.3.2a.orig/html2text.C	2008-09-20 14:09:32.009308515 +0300
-+++ html2text-1.3.2a/html2text.C	2008-09-20 14:09:40.133207014 +0300
-@@ -45,6 +45,7 @@
+--- html2text.orig/html2text.C	2009-02-23 22:35:21.591066210 +0200
++++ html2text/html2text.C	2009-02-23 22:35:43.887742453 +0200
+@@ -45,6 +45,8 @@
  
  #include <iconv.h>
  #include <errno.h>
++#include <unistd.h>
 +#include <langinfo.h>
  
  #include "html.h"
  #include "HTMLControl.h"
-@@ -59,6 +60,7 @@
+@@ -59,6 +61,7 @@
  using std::stringstream;
  using std::istream_iterator;
  using std::ostream_iterator;
@@ -19,7 +20,21 @@ Index: html2text-1.3.2a/html2text.C
  
  class MyParser : public HTMLControl {
  
-@@ -474,7 +476,7 @@
+@@ -429,8 +432,13 @@
+   ostream  *osp;
+   std::ofstream ofs;
+ 
++  bool output_is_tty = false;
+   if (!strcmp(output_file_name, "-")) {
+     osp = &std::cout;
++	if (isatty(1 /* stdout */))
++	{
++		output_is_tty = true;
++	}
+   } else {
+     ofs.open(output_file_name, std::ios::out);
+     if (!ofs) {
+@@ -476,7 +484,7 @@
  		uis = infile;
      }
  
@@ -28,16 +43,16 @@ Index: html2text-1.3.2a/html2text.C
  	std::copy(istream_iterator<char>(*uis), istream_iterator<char>(), ostream_iterator<char>(input_stream));
  
  	if (infile)
-@@ -547,6 +549,8 @@
- 	// real parsing now always process UTF-8
- 	use_encoding = UTF8;
+@@ -557,6 +565,8 @@
+ 		use_encoding = UTF8;
+ 	}
  
 +	stringstream output_stream;
 +
  	// real parsing
  	input_stream.clear();
  	input_stream.seekg(0);
-@@ -554,13 +558,28 @@
+@@ -564,13 +574,31 @@
  	  input_stream,
  	  debug_scanner,
  	  debug_parser,
@@ -49,16 +64,19 @@ Index: html2text-1.3.2a/html2text.C
  	);
      if (parser.yyparse() != 0) exit(1);
  
-+	// recode output
-+	setlocale(LC_CTYPE,"");
-+	char output_encoding[64];
-+	strcpy(output_encoding, nl_langinfo(CODESET));
-+	strcat(output_encoding, "//translit");
-+
-+	result = recode(output_stream, output_encoding, "UTF-8");
-+	if (!result)
++	// recode output if output is terminal
++	if (output_is_tty)
 +	{
-+		continue;
++		setlocale(LC_CTYPE,"");
++		char output_encoding[64];
++		strcpy(output_encoding, nl_langinfo(CODESET));
++		strcat(output_encoding, "//translit");
++
++		result = recode(output_stream, output_encoding, "UTF-8");
++		if (!result)
++		{
++			continue;
++		}
 +	}
 +	output_stream.clear();
 +	output_stream.seekg(0);
