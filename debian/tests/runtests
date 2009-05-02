@@ -4,7 +4,7 @@ set -e
 
 # $1 - html file name
 # $2 - html2text param
-function check
+check()
 {
 	../../html2text $2 $1 > $1.result
 	cmp $1.result $1.supposed
