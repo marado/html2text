@@ -6,6 +6,7 @@ set -e
 # $2 - html2text param
 check()
 {
+	echo "  checking $1"
 	../../html2text $2 $1 > $1.result
 	cmp $1.result $1.supposed
 	return

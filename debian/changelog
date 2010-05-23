@@ -14,6 +14,7 @@ html2text (1.3.2a-15) UNRELEASED; urgency=low
     - Added with quilt usage as content.
   * debian/tests:
     - Added a test for new patch.
+    - Echo test case names while running.
 
  -- Eugene V. Lyubimkin <jackyf@debian.org>  Sun, 23 May 2010 17:47:02 +0300
 
