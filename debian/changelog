@@ -12,6 +12,8 @@ html2text (1.3.2a-15) UNRELEASED; urgency=low
       (Closes: #582199)
   * debian/README.source:
     - Added with quilt usage as content.
+  * debian/tests:
+    - Added a test for new patch.
 
  -- Eugene V. Lyubimkin <jackyf@debian.org>  Sun, 23 May 2010 17:47:02 +0300
 
