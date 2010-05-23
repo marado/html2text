@@ -1,10 +1,20 @@
-Packaged by Adrian Bridgett <bridgett@debian.org> from sources obtained
-at http://www.gmrs.de/html2text.html.
-Update: those sources have now been removed since GMRS no longer support the
-program.  Martin Bayer <mbayer@zedat.fu-berlin.de>  now has fixed a bug and
-has a new version at http://www.mbayer.de/html2text/
+This work was packaged for Debian by:
 
-Author: Arno Unkrig (arno.unkrig@gmrs.de)
+	Adrian Bridgett <bridgett@debian.org>
+
+It was downloaded from:
+
+	http://www.gmrs.de/html2text.html.
+
+	Update: those sources have now been removed since GMRS no
+	longer support the program. Martin Bayer
+	<mbayer@zedat.fu-berlin.de> maintains new version at
+
+	http://www.mbayer.de/html2text/
+
+Author:
+
+	Arno Unkrig (arno.unkrig@gmrs.de)
 
 Copyright:
 
