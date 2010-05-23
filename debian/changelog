@@ -6,6 +6,8 @@ html2text (1.3.2a-15) UNRELEASED; urgency=low
     - Bumped 'Standards-Version' to 3.8.4, no changes needed.
   * debian/patches:
     - 510-disable-backspaces.patch: refreshed.
+    - 550-skip-numbers-in-html-tag-attributes.patch: new patch by Eric Krohn.
+      (Closes: #582199)
 
  -- Eugene V. Lyubimkin <jackyf@debian.org>  Sun, 23 May 2010 17:47:02 +0300
 
