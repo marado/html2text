@@ -5,6 +5,7 @@ html2text (1.3.2a-15) UNRELEASED; urgency=low
   * debian/control:
     - Bumped 'Standards-Version' to 3.8.4, no changes needed.
     - Updated my mail address.
+    - Added '{misc:Depends}' to dependencies.
   * debian/patches:
     - 510-disable-backspaces.patch: refreshed.
     - 550-skip-numbers-in-html-tag-attributes.patch: new patch by Eric Krohn.
