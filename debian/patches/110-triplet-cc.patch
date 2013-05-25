@@ -1,0 +1,13 @@
+Index: b/configure
+===================================================================
+--- a/configure	2004-01-12 15:47:18.000000000 +0000
++++ b/configure	2013-03-06 08:20:56.944803098 +0000
+@@ -39,7 +39,7 @@
+ }
+ EOF
+ CXX=unknown;
+-for i in "CC" "g++" "cc" "$CC"; do
++for i in "$CC" "CC" "g++" "cc"; do
+   if $i -c $tmp_file.C 2>/dev/null; then
+     CXX="$i";
+     break;

@@ -6,6 +6,8 @@ html2text (1.3.2a-16~) UNRELEASED; urgency=low
   * debian/patches:
     - New 100-fix-makefile.patch to support externally-prodided/Debian compile
       flags.
+    - New 110-triplet-cc.patch to support cross-building. Patch by
+      Matthias Klose. (Closes: #702413)
     - 500-utf8-support.patch: fixed converting &auml;. (Closes: #593453)
   * debian/rules:
     - Support 'nocheck' in DEB_BUILD_OPTIONS. Patch by Daniel Schepler and
