@@ -1,62 +1,22 @@
 #!/usr/bin/make -f
 
-ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
-	MAKEFLAGS += -j$(NUMJOBS)
-endif
+%:
+	dh $@ --parallel
 
-DEB=debian/html2text
+override_dh_auto_clean:
+	-rm -rf Makefile html2text *.o configure-tmp Dependencies debian/tests/*.result
 
-build: build-stamp
-build-stamp:
-	dh_testdir
-	./configure --prefix=$(DEB)/usr
-	sed -i 's/$$(CXXFLAGS)/$$(CXXFLAGS) $$(DEB_CXXFLAGS)/g' Makefile
-	$(MAKE) DEB_CXXFLAGS="$(CFLAGS)" LOCAL_LDFLAGS=-g 
-	touch build-stamp
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	-rm -rf Makefile html2text *.o configure-tmp Dependencies
-	rm -f debian/tests/*.result
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs
-
-test: build
+override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	cd debian/tests/ && sh runtests
 endif
 
-binary-indep:
-
-binary-arch: build install test
-	dh_testdir
-	dh_testroot
-	dh_install html2text usr/bin
-	dh_installdocs README debian/NEWS.Debian debian/README.Debian TODO ascii.substitutes
-	dh_installexamples pretty.style
-	dh_installmime
-	dh_installman debian/html2text.1
+override_dh_installman:
 	# darn, patch those typos (bug #309887 here)
 	zcat html2textrc.5.gz | sed \
 		"s/specifiy/specify/; s/elemet/element/; s/who's/whose/" \
-		| gzip -c9 > $(DEB)/usr/share/man/man5/html2textrc.5.gz
-	dh_installchangelogs CHANGES
-	dh_strip
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
+		> debian/html2textrc.5
+	dh_installman 
 
-binary:	binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary test
+override_dh_auto_install:
+	# do nothing
