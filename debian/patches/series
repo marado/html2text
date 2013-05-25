@@ -1,3 +1,4 @@
+100-fix-makefile.patch
 200-close-files-inside-main-loop.patch
 400-remove-builtin-http-support.patch
 500-utf8-support.patch
