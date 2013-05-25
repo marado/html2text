@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Debian QA Group <packages@qa.debian.org>
 Build-Depends: debhelper (>= 7.0.50)
-Standards-Version: 3.8.4
+Standards-Version: 3.9.4
 Vcs-Git: git://git.debian.org/collab-maint/html2text.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/html2text.git;a=summary
 DM-Upload-Allowed: yes
