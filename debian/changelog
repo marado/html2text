@@ -9,6 +9,7 @@ html2text (1.3.2a-16~) UNRELEASED; urgency=low
     - Support 'nocheck' in DEB_BUILD_OPTIONS. Patch by Daniel Schepler and
       Matthias Klose.
     - Rewrote using dh v7.
+    - Use dpkg-buildflags if available.
   * debian/{rules,control,source/format}:
     - Switch to '3.0 (quilt)' format to ease bootstrapping of debhelper.
       Patch by David Schepler. (Closes: #709532)
