@@ -5,19 +5,17 @@ ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
 	MAKEFLAGS += -j$(NUMJOBS)
 endif
 
-include /usr/share/quilt/quilt.make
-
 DEB=debian/html2text
 
 build: build-stamp
-build-stamp: debian/stamp-patched
+build-stamp:
 	dh_testdir
 	./configure --prefix=$(DEB)/usr
 	sed -i 's/$$(CXXFLAGS)/$$(CXXFLAGS) $$(DEB_CXXFLAGS)/g' Makefile
 	$(MAKE) DEB_CXXFLAGS="$(CFLAGS)" LOCAL_LDFLAGS=-g 
 	touch build-stamp
 
-clean: unpatch
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
