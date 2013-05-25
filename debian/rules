@@ -32,7 +32,9 @@ install: build
 	dh_installdirs
 
 test: build
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	cd debian/tests/ && sh runtests
+endif
 
 binary-indep:
 
