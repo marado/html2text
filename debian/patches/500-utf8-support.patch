@@ -411,7 +411,7 @@ Index: html2text/sgml.C
 +  { "aring",   LATIN1_aring,  "aa",  0x00e5},
 +  { "asymp",   0,             "~=",  0x2248},
 +  { "atilde",  LATIN1_atilde, "a~",  0x00e3},
-+  { "auml",    LATIN1_auml,   "a\"", 0x00e5},
++  { "auml",    LATIN1_auml,   "a\"", 0x00e4},
    { "bdquo",   0,             "\""         },
 -  { "beta",    0,             "b"          },
 -  { "brvbar",  LATIN1_brvbar, "|"          },

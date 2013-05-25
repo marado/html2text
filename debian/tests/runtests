@@ -20,4 +20,5 @@ check rus+eng.html -utf8
 check ascii-ntilde.html -ascii
 check pkgreport.html -utf8
 check number_in_attribute.html
+check auml.html -utf8
 
