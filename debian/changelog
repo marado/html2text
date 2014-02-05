@@ -1,3 +1,9 @@
+html2text (1.3.2a-17) UNRELEASED; urgency=medium
+
+  * Adopted the package. (Closes: #545710)
+
+ -- Holger Levsen <holger@debian.org>  Wed, 05 Feb 2014 13:28:32 +0000
+
 html2text (1.3.2a-16) unstable; urgency=low
 
   * Orphaned the package.
