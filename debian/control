@@ -2,7 +2,7 @@ Source: html2text
 Section: web
 Priority: optional
 Maintainer: Holger Levsen <holger@debian.org>
-Build-Depends: debhelper
+Build-Depends: debhelper (>= 9.20120909~)
 Standards-Version: 3.9.5
 Vcs-Git: git://git.debian.org/collab-maint/html2text.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/html2text.git;a=summary
