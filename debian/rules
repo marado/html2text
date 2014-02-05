@@ -10,7 +10,7 @@ export CC = $(DEB_HOST_GNU_TYPE)-g++
 	dh $@ --parallel
 
 override_dh_auto_clean:
-	-rm -rf Makefile html2text *.o configure-tmp Dependencies debian/tests/*.result
+	-rm -rf Makefile html2text *.o configure-tmp Dependencies debian/tests/*.result debian/html2textrc.5
 
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
