@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Holger Levsen <holger@debian.org>
 Build-Depends: debhelper (>= 7.0.50)
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 Vcs-Git: git://git.debian.org/collab-maint/html2text.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/html2text.git;a=summary
 Homepage: http://www.mbayer.de/html2text/
