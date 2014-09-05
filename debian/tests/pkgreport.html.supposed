@@ -135,11 +135,10 @@ Outstanding bugs -- Critical bugs; Unclassified (27 bugs)
       Krzysztof Krzyzaniak (eloy) <eloy@debian.org>; Filed 1 year and 159 days
       ago; Modified 1 year and 151 days ago;
     * #442165 [C|  |☺] [apt-spy] apt-spy:_Destroys_sources.list_file
-      Reported by: &quot;Jeffrey_W._Baker&quot;_<jwbaker@acm.org>; Date: Thu,
-      13 Sep 2007 18:18:01 UTC; Severity: critical;  Found_in_version_apt-spy/
-      3.1-16;_Fixed_in_version_apt-spy/3.1-17;Done: Raphael Geissert
-      <atomo64@gmail.com>; Filed 1 year and 156 days ago; Modified 1 year and
-      118 days ago;
+      Reported by: "Jeffrey_W._Baker"_<jwbaker@acm.org>; Date: Thu, 13 Sep 2007
+      18:18:01 UTC; Severity: critical;  Found_in_version_apt-spy/3.1-16;_Fixed
+      in_version_apt-spy/3.1-17;Done: Raphael Geissert <atomo64@gmail.com>;
+      Filed 1 year and 156 days ago; Modified 1 year and 118 days ago;
     * #445861 [C|  |=☺] [hal] hal:_HAL_daemon_exited_with_return_code_1
       Reported by: Antonio_<antonio.dantas@gmail.com>; Date: Mon, 8 Oct 2007
       17:54:01 UTC; Severity: critical;  Merged with 447860; Found_in_versions
@@ -245,15 +244,14 @@ Forwarded bugs -- Critical bugs (5 bugs)
       13 Aug 2008 14:00:07 UTC; Severity: critical; Tags: patch, security;
       Merged with 496405; Found_in_versions_sympa/5.2.3-1.2+etch1,_sympa/5.3.4-
       5;_Fixed_in_version_5.3.4-5.1;Forwarded to http://sourcesup.cru.fr/
-      tracker/index.php?func=detail&amp;aid=4430; Done: Nico Golde
+      tracker/index.php?func=detail&aid=4430; Done: Nico Golde
       <nion@debian.org>; Filed 186 days ago; Modified 171 days ago;
     * #499078 [C|M+|↝] [jfsutils] jfsutils:_Bus_Error_when_running_fsck.jfs_on
       sparc
       Reported by: Ivan_Jager_<aij+debian@andrew.cmu.edu>; Date: Tue, 16 Sep
       2008 01:42:01 UTC; Severity: critical; Tags: moreinfo, patch; Found_in
       version_jfsutils/1.1.11-1;Forwarded to https://sourceforge.net/tracker/
-      ?func=detail&amp;atid=712756&amp;aid=2113843&amp;group_id=128802; Filed
-      152 days ago;
+      ?func=detail&atid=712756&aid=2113843&group_id=128802; Filed 152 days ago;
     * #514163 [C|  |☺↝] [fail2ban] fail2ban:_allows_DoS_via_construction_of
       domain_names_starting_with_IP_of_a_victim
       Reported by: Chris_Butler_<chrisb@debian.org>; Date: Wed, 4 Feb 2009 19:
@@ -278,11 +276,11 @@ Resolved bugs -- Critical bugs (4 bugs)
       Kinkhorst <thijs@debian.org>; Filed 362 days ago; Modified 204 days ago;
     * #510902 [C|S|☺] [iceweasel] Missing_security_updates_-_version_2.0.0.20
       available_from_upstream
-      Reported by: &quot;bugtracker@slideomania.com&quot;
-      <bugtracker@slideomania.com>; Date: Mon, 5 Jan 2009 20:06:02 UTC;
-      Severity: critical; Tags: security; Found_in_version_iceweasel/2.0.0.18-
-      0etch1;_Fixed_in_version_iceweasel/2.0.0.19-0etch1;Done: Eric Dorland
-      <eric@debian.org>; Can be archived in 23 days; Filed 40 days ago;
+      Reported by: "bugtracker@slideomania.com"_<bugtracker@slideomania.com>;
+      Date: Mon, 5 Jan 2009 20:06:02 UTC; Severity: critical; Tags: security;
+      Found_in_version_iceweasel/2.0.0.18-0etch1;_Fixed_in_version_iceweasel/
+      2.0.0.19-0etch1;Done: Eric Dorland <eric@debian.org>; Can be archived in
+      23 days; Filed 40 days ago;
     * #514411 [C|  |  ] [resolvconf] resolvconf_breaks_all_network_operations
       Reported by: Richard_Kettlewell_<rjk@greenend.org.uk>; Date: Sat, 7 Feb
       2009 10:51:02 UTC; Severity: critical;  Found_in_version_resolvconf/
@@ -314,12 +312,12 @@ From other Branch bugs -- Critical bugs (30 bugs)
       12:06:08 UTC; Severity: critical;  Found_in_version_poldi/0.3.0-4.1;Filed
       1 year and 253 days ago; Modified 191 days ago;
     * #433501 [C|U|☺↝] [linux-2.6] Oops_in_kcryptd
-      Reported by: &quot;Laurent_Parenteau&quot;_<laurent.parenteau@gmail.com>;
-      Date: Tue, 17 Jul 2007 15:33:02 UTC; Severity: critical; Tags: fixed-
-      upstream; Found_in_versions_2.6.18.dfsg.1-12etch2,_2.6.18-1;_Fixed_in
-      version_2.6.22-4;Forwarded to http://bugzilla.kernel.org/
-      show_bug.cgi?id=7388; Done: Philippe Cloutier <chealer@gmail.com>; Filed
-      1 year and 214 days ago; Modified 139 days ago;
+      Reported by: "Laurent_Parenteau"_<laurent.parenteau@gmail.com>; Date:
+      Tue, 17 Jul 2007 15:33:02 UTC; Severity: critical; Tags: fixed-upstream;
+      Found_in_versions_2.6.18.dfsg.1-12etch2,_2.6.18-1;_Fixed_in_version
+      2.6.22-4;Forwarded to http://bugzilla.kernel.org/show_bug.cgi?id=7388;
+      Done: Philippe Cloutier <chealer@gmail.com>; Filed 1 year and 214 days
+      ago; Modified 139 days ago;
     * #440436 [C|  |┫] [w3c-libwww] The_maintainer_plans_to_request_removal_of
       this_package_from_the_Debian_archive
       Reported by: Richard_Atterer_<atterer@debian.org>; Date: Sat, 1 Sep 2007
@@ -334,11 +332,10 @@ From other Branch bugs -- Critical bugs (30 bugs)
       Modified 1 year and 14 days ago;
     * #468751 [C|S|☺] [aptitude] aptitude_update_fails_with_improperly_formed
       Recommends_entry_in_lists_files
-      Reported by: &quot;Warren_Turkal&quot;_<wt@penguintechs.org>; Date: Sat,
-      1 Mar 2008 07:12:04 UTC; Severity: critical; Tags: security; Found_in
-      version_aptitude/0.4.10-1;_Fixed_in_version_aptitude/0.4.11-1;Done:
-      Daniel Burrows <dburrows@debian.org>; Filed 351 days ago; Modified 336
-      days ago;
+      Reported by: "Warren_Turkal"_<wt@penguintechs.org>; Date: Sat, 1 Mar 2008
+      07:12:04 UTC; Severity: critical; Tags: security; Found_in_version
+      aptitude/0.4.10-1;_Fixed_in_version_aptitude/0.4.11-1;Done: Daniel
+      Burrows <dburrows@debian.org>; Filed 351 days ago; Modified 336 days ago;
     * #471642 [C|  |=] [pango-graphite] libpango1.0-0:_iceweasel_is_crashing
       permanently_with_pango_enabled
       Reported by: Norbert_Preining_<preining@logic.at>; Date: Wed, 19 Mar 2008
@@ -352,8 +349,8 @@ From other Branch bugs -- Critical bugs (30 bugs)
       Reported by: Guido_Günther_<agx@sigxcpu.org>; Date: Tue, 22 Jul 2008 18:
       30:02 UTC; Severity: critical;  Found_in_version_python-vobject/0.6.6-
       1;Filed 208 days ago; Modified 208 days ago;
-    * #492317 [C|  |  ] [kdm] update_breaks_grub_boot_(MBR)_&quot;Grub_Error
-      28:_Selected_item_can_not_fit_into_memory&quot;
+    * #492317 [C|  |  ] [kdm] update_breaks_grub_boot_(MBR)_"Grub_Error_28:
+      Selected_item_can_not_fit_into_memory"
       Reported by: Alan_Braslau_<alan.braslau@cea.fr>; Date: Fri, 25 Jul 2008
       08:30:02 UTC; Severity: critical;  Found_in_version_kdebase-workspace/4:
       4.0.98-1;Filed 205 days ago; Modified 25 days ago;
@@ -363,11 +360,10 @@ From other Branch bugs -- Critical bugs (30 bugs)
       days ago; Modified 172 days ago;
     * #498965 [C|  |☺] [selinux-policy-default] dbus_bus_get():_An_SELinux
       policy_prevents_this_sender_from_sending_this_message_to_this_recipient
-      Reported by: &quot;Eddy_Petrișor&quot;_<eddy.petrisor@gmail.com>; Date:
-      Sun, 14 Sep 2008 21:21:01 UTC; Severity: critical;  Found_in_version
-      refpolicy/2:0.0.20080702-7;_Fixed_in_version_2:0.0.20080702-6;Done:
-      &quot;Eddy Petrișor&quot; <eddy.petrisor@gmail.com>; Filed 153 days ago;
-      Modified 102 days ago;
+      Reported by: "Eddy_Petrișor"_<eddy.petrisor@gmail.com>; Date: Sun, 14 Sep
+      2008 21:21:01 UTC; Severity: critical;  Found_in_version_refpolicy/2:
+      0.0.20080702-7;_Fixed_in_version_2:0.0.20080702-6;Done: "Eddy Petrișor"
+      <eddy.petrisor@gmail.com>; Filed 153 days ago; Modified 102 days ago;
     * #499025 [C|  |  ] [heartbeat-2] heartbeat-2:_Primary_node_thrashes_to
       death_with_queue_error
       Reported by: Colin_Alston_<colin@thusa.co.za>; Date: Mon, 15 Sep 2008 15:
@@ -375,9 +371,9 @@ From other Branch bugs -- Critical bugs (30 bugs)
       2.0.7-2;Filed 153 days ago; Modified 126 days ago;
     * #503475 [C|  |  ] [love] Reproducably_steals_all_keyboard_and_some_mouse
       input
-      Reported by: &quot;Richard_Hartmann&quot;_<richih.mailinglist@gmail.com>;
-      Date: Sun, 26 Oct 2008 12:33:02 UTC; Severity: critical;  Found_in
-      version_love/0.4.0-2;Filed 112 days ago; Modified 55 days ago;
+      Reported by: "Richard_Hartmann"_<richih.mailinglist@gmail.com>; Date:
+      Sun, 26 Oct 2008 12:33:02 UTC; Severity: critical;  Found_in_version
+      love/0.4.0-2;Filed 112 days ago; Modified 55 days ago;
     * #504373 [C|  |☺] [libtemplate-perl] libtemplate-perl:_Upgrade_from_etch
       breaks_code_using_DBI_plugins
       Reported by: Antti_Salmela_<asalmela@iki.fi>; Date: Mon, 3 Nov 2008 08:
