@@ -1,7 +1,9 @@
 Description: Completed the utf8 table
  The utf8 table translates HTML entities into UTF8 characters. The table,
  introduced by patch 500, was quite incomplete. This patch completes it.
- Table taken from http://lists.gnu.org/archive/html/groff/2006-01/msg00113.html
+ Table information mostly taken from
+ http://lists.gnu.org/archive/html/groff/2006-01/msg00113.html , with some
+ of the entries retrieved from various other sources.
  .
 Author: Marcos Daniel Marado Torres <mindboosternoori@gmail.com>
 Bug-Debian: https://bugs.debian.org/760588
